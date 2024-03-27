@@ -59,6 +59,19 @@ class App extends React.Component<Props, ExtendedGameState> {
   };
 
   /**
+   * Exercise: implement Undo function
+   */
+  undoGame = async () => {
+    const response = await fetch('/undo');
+    const json = await response.json();
+    this.setState({
+        cells: json['cells'],
+        currentPlayer: json['currentPlayer'],
+        winner: json['winner'],
+    });
+  };
+
+  /**
    * play will generate an anonymous function that the component
    * can bind with.
    * @param x 
