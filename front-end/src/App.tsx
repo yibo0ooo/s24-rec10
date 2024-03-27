@@ -154,7 +154,7 @@ class App extends React.Component<Props, ExtendedGameState> {
         <div id="bottombar">
           <button onClick={this.newGame}>New Game</button>
           {/* Exercise: implement Undo function */}
-          <button>Undo</button>
+          <button onClick={this.undoGame}>Undo</button>
         </div>
       </div>
     );
