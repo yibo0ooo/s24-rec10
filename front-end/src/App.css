@@ -20,11 +20,12 @@
 
 #instructions {
   height: 5vh;
-  background-color: white;
-  padding: 0px;
-  margin: 0px;
+  background-color: lightblue;
+  color: darkblue;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 18px;
   text-align: center;
-  border: 1px solid black;
 }
 
 #bottombar button {

@@ -8,6 +8,12 @@ import BoardCell from './Cell';
  */
 interface Props { }
 
+// Extend GameState to include currentPlayer and winner
+interface ExtendedGameState extends GameState {
+  currentPlayer?: string; // Assuming the player is identified by "PLAYER0" or "PLAYER1"
+  winner?: string; // Could be "PLAYER0", "PLAYER1", or null
+}
+
 /**
  * Using generics to specify the type of props and state.
  * props and state is a special field in a React component.
@@ -23,7 +29,7 @@ interface Props { }
  * state is the internal value of the component and managed by
  * the component itself.
  */
-class App extends React.Component<Props, GameState> {
+class App extends React.Component<Props, ExtendedGameState> {
   private initialized: boolean = false;
 
   /**
@@ -34,7 +40,7 @@ class App extends React.Component<Props, GameState> {
     /**
      * state has type GameState as specified in the class inheritance.
      */
-    this.state = { cells: [] }
+    this.state = { cells: [], currentPlayer: undefined, winner: undefined };
   }
 
   /**
@@ -45,8 +51,12 @@ class App extends React.Component<Props, GameState> {
   newGame = async () => {
     const response = await fetch('/newgame');
     const json = await response.json();
-    this.setState({ cells: json['cells'] });
-  }
+    this.setState({
+      cells: json['cells'],
+      currentPlayer: json['currentPlayer'],
+      winner: json['winner'],
+    });
+  };
 
   /**
    * play will generate an anonymous function that the component
@@ -61,7 +71,11 @@ class App extends React.Component<Props, GameState> {
       e.preventDefault();
       const response = await fetch(`/play?x=${x}&y=${y}`)
       const json = await response.json();
-      this.setState({ cells: json['cells'] });
+      this.setState({
+        cells: json['cells'],
+        currentPlayer: json['currentPlayer'],
+        winner: json['winner'],
+      });
     }
   }
 
@@ -108,18 +122,24 @@ class App extends React.Component<Props, GameState> {
    * @see https://reactjs.org/docs/react-component.html
    */
   render(): React.ReactNode {
-    /**
-     * We use JSX to define the template. An advantage of JSX is that you
-     * can treat HTML elements as code.
-     * @see https://reactjs.org/docs/introducing-jsx.html
-     */
+    // Instructions Panel Display
+    let instructions;
+    if (this.state.winner) {
+      instructions = `Winner: ${this.state.winner}`;
+    } else if (this.state.currentPlayer) {
+      instructions = `Current Player: ${this.state.currentPlayer}`;
+    } else {
+      instructions = 'Loading game...';
+    }
+
     return (
       <div>
+        <div id="instructions">{instructions}</div>
         <div id="board">
           {this.state.cells.map((cell, i) => this.createCell(cell, i))}
         </div>
         <div id="bottombar">
-          <button onClick={/* get the function, not call the function */this.newGame}>New Game</button>
+          <button onClick={this.newGame}>New Game</button>
           {/* Exercise: implement Undo function */}
           <button>Undo</button>
         </div>
