@@ -68,4 +68,12 @@ public class Game {
             return board.getCell(1, 1);
         return null;
     }
+
+    // Method to undo the last move
+    public Game undo() {
+        if (!history.isEmpty()) {
+            return history.get(history.size() - 1);
+        }
+        return this; // Return the current state if undo is not possible
+    }
 }
