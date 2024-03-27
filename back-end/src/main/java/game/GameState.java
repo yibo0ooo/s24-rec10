@@ -5,14 +5,20 @@ import java.util.Arrays;
 public class GameState {
 
     private final Cell[] cells;
+    private final Player currentPlayer;
+    private final Player winner;
 
-    private GameState(Cell[] cells) {
+    private GameState(Cell[] cells, Player currentPlayer, Player winner) {
         this.cells = cells;
+        this.currentPlayer = currentPlayer;
+        this.winner = winner;
     }
 
     public static GameState forGame(Game game) {
         Cell[] cells = getCells(game);
-        return new GameState(cells);
+        Player winner = game.getWinner();
+        Player currentPlayer = game.getPlayer();
+        return new GameState(cells, game.getPlayer(), game.getWinner());
     }
 
     public Cell[] getCells() {
@@ -23,13 +29,23 @@ public class GameState {
      * toString() of GameState will return the string representing
      * the GameState in JSON format.
      */
+    // @Override
+    // public String toString() {
+    //     return """
+    //             { "cells": %s}
+    //             """.formatted(Arrays.toString(this.cells));
+    // }
+
+
     @Override
     public String toString() {
-        return """
-                { "cells": %s}
-                """.formatted(Arrays.toString(this.cells));
+        String playerString = this.currentPlayer == null ? "null" : "\"" + this.currentPlayer.toString() + "\"";
+        String winnerString = this.winner == null ? "null" : "\"" + this.winner.toString() + "\"";
+        return String.format("{ \"cells\": %s, \"currentPlayer\": %s, \"winner\": %s }", 
+                             Arrays.toString(this.cells), playerString, winnerString);
     }
 
+    
     private static Cell[] getCells(Game game) {
         Cell cells[] = new Cell[9];
         Board board = game.getBoard();
