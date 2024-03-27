@@ -1,3 +1,21 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f0f0;
+}
+
+.App {
+  text-align: center;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border-radius: 8px;
+}
+
 #board {
   display: grid;
   grid-template-columns: auto auto auto;
@@ -7,11 +25,23 @@
 
 .cell {
   background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.8); /* Slightly thicker border for definition */
   font-size: 30px;
   height: 25vmin;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; /* Ensure it's clear cells are interactive */
+  transition: transform 0.2s; /* Smooth transform effect on click */
+}
+
+.cell:hover {
+  transform: scale(1.05); /* Slight scale effect on hover for interactivity */
+}
+
+
+.cell.playable:hover, .cell.playable {
+  background-color: #ffcccc; /* Lighter red to not overpower */
 }
 
 #bottombar {
@@ -19,30 +49,31 @@
 }
 
 #instructions {
-  height: 5vh;
   background-color: lightblue;
   color: darkblue;
   padding: 10px;
   margin-bottom: 20px;
   font-size: 18px;
-  text-align: center;
+  border-radius: 5px; /* Rounded corners for instructions */
+}
+
+#bottombar {
+  display: flex; /* Flex layout for even spacing */
+  justify-content: space-around; /* Evenly space buttons */
+  margin-top: 20px;
 }
 
 #bottombar button {
-  width: 50%;
-  /* height: 100%; */
-  margin: 0;
-  padding: 0;
-  position: relative;
-  float: left;
-  font-size: 2vw
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 2vw;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 5px; /* Match other rounded elements */
 }
 
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+#bottombar button:hover {
+  background-color: #0056b3; /* Darker shade on hover for feedback */
 }
-
-.playable { background-color: red;}
